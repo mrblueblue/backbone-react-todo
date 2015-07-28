@@ -6,6 +6,7 @@ require('backbone.localstorage');
 
 /* React Components */
 var TodoItem = require('./components/TodoItem');
+var Stats = require('./components/Stats');
 
 $(function() {
 
@@ -98,12 +99,12 @@ $(function() {
   // Re-render the titles of the todo item.
   render: function() {
 
+    /* REACT RENDER BLOCK */
     React.render(
       <TodoItem done={this.model.get('done')} title={this.model.get('title')}/>,
       this.$el[0]
     );
 
-    
     this.$el.toggleClass('done', this.model.get('done'));
     this.input = this.$('.edit');
     return this;
@@ -153,9 +154,6 @@ $(function() {
   // the App already present in the HTML.
   el: $("#todoapp"),
 
-  // Our template for the line of statistics at the bottom of the app.
-  statsTemplate: _.template($('#stats-template').html()),
-
   // Delegated events for creating new items, and clearing completed ones.
   events: {
     "keypress #new-todo":  "createOnEnter",
@@ -190,7 +188,13 @@ $(function() {
     if (Todos.length) {
       this.main.show();
       this.footer.show();
-      this.footer.html(this.statsTemplate({done: done, remaining: remaining}));
+
+      /* REACT RENDER BLOCK */
+      React.render(
+        <Stats done={done} remaining={remaining} />,
+        this.footer[0]
+      )
+
     } else {
       this.main.hide();
       this.footer.hide();

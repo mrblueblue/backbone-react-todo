@@ -4,7 +4,7 @@ export default class TodoItem extends Component {
 
   static propTypes = {
     done: React.PropTypes.bool,
-    title: React.PropTypes.title
+    title: React.PropTypes.string
   }
 
   constructor(props){
