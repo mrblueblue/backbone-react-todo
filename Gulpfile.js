@@ -1,7 +1,6 @@
 
 var path = require('path');
 var gulp = require('gulp');
-var eslint = require('gulp-eslint');
 var webpack = require('webpack-stream');
 var serve = require('browser-sync');
 
@@ -27,25 +26,11 @@ gulp.task('serve', function(){
       baseDir: paths.output
     }
   });
-  gulp.watch('src/dist/*', serve.reload)
-});
-
-gulp.task('lint', function(){
-  return gulp.src(paths.entry)
-    .pipe(eslint({
-      envs: {
-        browser: true,
-        es6: true
-      },
-      rules: {
-        'quotes': [2, 'single', 'avoid-escape']
-      }
-    }))
-    .pipe(eslint.format());
+  gulp.watch('dist/*', serve.reload)
 });
 
 gulp.task('watch', function(){
   gulp.watch(paths.app, ['lint']);
 });
 
-gulp.task('default', ['build', 'lint', 'watch']);
+gulp.task('default', ['build', 'watch']);

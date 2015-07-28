@@ -1,8 +1,11 @@
-
+var React = require('react');
 var Backbone = require('backbone');
 var $ = require('jquery');
 var _ = require('underscore');
 require('backbone.localstorage');
+
+/* React Components */
+var TodoItem = require('./components/TodoItem');
 
 $(function() {
 
@@ -75,9 +78,6 @@ $(function() {
   //... is a list tag.
   tagName:  "li",
 
-  // Cache the template function for a single item.
-  template: _.template($('#item-template').html()),
-
   // The DOM events specific to an item.
   events: {
     "click .toggle"   : "toggleDone",
@@ -97,7 +97,13 @@ $(function() {
 
   // Re-render the titles of the todo item.
   render: function() {
-    this.$el.html(this.template(this.model.toJSON()));
+
+    React.render(
+      <TodoItem done={this.model.get('done')} title={this.model.get('title')}/>,
+      this.$el[0]
+    );
+
+    
     this.$el.toggleClass('done', this.model.get('done'));
     this.input = this.$('.edit');
     return this;

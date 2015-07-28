@@ -10,6 +10,17 @@ var config = {
     filename: 'bundle.js'
   },
 
+
+  module: {
+    loaders: [
+      {
+        test: /\.jsx?$/,
+        exclude: /(node_modules)/,
+        loaders: ['babel?stage=0&optional[]=runtime&loose=all&cacheDirectory']
+      },
+    ]
+  },
+
   resolve: {
     extensions: ['', '.js', '.jsx'],
   },
