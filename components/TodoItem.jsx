@@ -14,12 +14,12 @@ export default class TodoItem extends Component {
   }
 
   render(){
-    let { done } = this.props;
+    let { done, toggle, edit } = this.props;
     let { input } = this.state;
     return (
       <div>
-        <div className="view">
-          <input className="toggle" type="checkbox" checked={done ? "checked" : ''} />
+        <div className="view" onDoubleClick={edit}>
+          <input className="toggle" type="checkbox" checked={done ? "checked" : ''} onClick={toggle} />
           <label>{input}</label>
           <a className="destroy"></a>
         </div>

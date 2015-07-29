@@ -27,6 +27,7 @@ $(function() {
 
   // Toggle the `done` state of this todo item.
   toggle: function() {
+    console.log('toggle')
     this.save({done: !this.get("done")});
   }
 
@@ -81,8 +82,6 @@ $(function() {
 
   // The DOM events specific to an item.
   events: {
-    "click .toggle"   : "toggleDone",
-    "dblclick .view"  : "edit",
     "click a.destroy" : "clear",
     "keypress .edit"  : "updateOnEnter",
     "blur .edit"      : "close"
@@ -99,20 +98,21 @@ $(function() {
   // Re-render the titles of the todo item.
   render: function() {
 
+
+    var { done, title } = this.model.attributes
     /* REACT RENDER BLOCK */
     React.render(
-      <TodoItem done={this.model.get('done')} title={this.model.get('title')}/>,
+      <TodoItem 
+        done={done} 
+        title={title} 
+        toggle={this.model.toggle.bind(this.model)}
+        edit={this.edit.bind(this)}/>,
       this.$el[0]
     );
 
     this.$el.toggleClass('done', this.model.get('done'));
     this.input = this.$('.edit');
     return this;
-  },
-
-  // Toggle the `"done"` state of the model.
-  toggleDone: function() {
-    this.model.toggle();
   },
 
   // Switch this view into `"editing"` mode, displaying the input field.
