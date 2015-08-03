@@ -17,7 +17,7 @@ export default class TodoItem extends Component {
     let { done, toggle, edit } = this.props;
     let { input } = this.state;
     return (
-      <div>
+      <div className={done ? 'done' : null}>
         <div className="view" onDoubleClick={edit}>
           <input className="toggle" type="checkbox" checked={done ? "checked" : ''} onClick={toggle} />
           <label>{input}</label>
@@ -27,7 +27,7 @@ export default class TodoItem extends Component {
       </div>
     )
   }
-
+  
   handleChange(e){
     let input = e.target.value;
     this.setState({input: input});

@@ -4,8 +4,9 @@ var $ = require('jquery');
 var _ = require('underscore');
 require('backbone.localstorage');
 
+var composeModelView = require('./composeModelView');
 /* React Components */
-var TodoItem = require('./components/TodoItem');
+var TodoItem = composeModelView(require('./components/TodoItem'));
 var Stats = require('./components/Stats');
 
 $(function() {
@@ -87,30 +88,18 @@ $(function() {
     "blur .edit"      : "close"
   },
 
-  // The TodoView listens for changes to its model, re-rendering. Since there's
-  // a one-to-one correspondence between a **Todo** and a **TodoView** in this
-  // app, we set a direct reference on the model for convenience.
-  initialize: function() {
-    this.listenTo(this.model, 'change', this.render);
-    this.listenTo(this.model, 'destroy', this.remove);
-  },
-
   // Re-render the titles of the todo item.
   render: function() {
 
-
-    var { done, title } = this.model.attributes
     /* REACT RENDER BLOCK */
     React.render(
-      <TodoItem 
-        done={done} 
-        title={title} 
+      <TodoItem
+        model={this.model} 
         toggle={this.model.toggle.bind(this.model)}
-        edit={this.edit.bind(this)}/>,
+        edit={this.edit.bind(this)} />,
       this.$el[0]
     );
 
-    this.$el.toggleClass('done', this.model.get('done'));
     this.input = this.$('.edit');
     return this;
   },
@@ -218,6 +207,9 @@ $(function() {
   // If you hit return in the main input field, create new **Todo** model,
   // persisting it to *localStorage*.
   createOnEnter: function(e) {
+
+    console.log('enter')
+
     if (e.keyCode != 13) return;
     if (!this.input.val()) return;
 

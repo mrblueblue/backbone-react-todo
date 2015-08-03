@@ -78,7 +78,7 @@ body {
 	border-bottom: none;
 }
 
-#todo-list li.done label {
+#todo-list div.done {
 	color: #777777;
 	text-decoration: line-through;
 }
